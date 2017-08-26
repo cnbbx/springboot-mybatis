@@ -1,0 +1,802 @@
+# 开发文档 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: 艾美e族商城移动端帮助文档
+  description: |
+    #### 服务站列表接口
+    有事没事别找金哥
+  contact:
+    name: 金哥
+    url: http://www.cnbbx.com/
+schemes:
+  - http
+host: nc.cnbbx.com
+basePath: /api
+paths:
+  /index.php?act=store_list&op=service_list:
+    get:
+      tags:
+        - 服务站相关
+      summary: 服务站列表
+      description: |
+        主要用于移动端底部的商铺里的服务站数据。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/service_list'
+      parameters:
+        - name: areaid
+          in: query
+          description: 区域ID
+          type: string
+        - name: xpoint
+          in: query
+          description: 横坐标
+          type: string
+        - name: ypoint
+          in: query
+          description: 纵坐标
+          type: string
+        - name: page
+          in: query
+          description: 设置每页显示数
+          type: string
+        - name: curpage
+          in: query
+          description: 当前页数
+          type: string
+        - name: voucher_sn
+          in: query
+          description: 服务券号
+          type: string
+        - name: type
+          in: query
+          description: 排序方式（1：区域和距离；2：星级；3：人气）
+          type: string
+  /index.php?act=store_list&op=service_details:
+    get:
+      tags:
+        - 服务站相关
+      summary: 美容护理券详情
+      description: |
+        这个是会员中心服务券列表点击服务标题进入介绍数据。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/service_details'
+      parameters:
+        - name: service_id
+          in: query
+          description: 服务券ID
+          type: string
+  /index.php?act=member_voucher&op=services_voucher:
+    post:
+      tags:
+        - 服务站相关
+      summary: 我的美容护理券列表
+      description: |
+        这个是会员中心服务券列表数据。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/ticket_voucher'
+      parameters:
+        - name: key
+          in: query
+          description: 会员登录KEY
+          type: string
+        - name: state
+          in: query
+          description: 服务券状态（1：未使用；2：进行中；3：已使用；4：已过期；）
+          type: string
+  /index.php?act=member_cart&op=cart_list:
+    post:
+      tags:
+        - 购物车相关
+      summary: 会员购物车列表
+      description: |
+        这个是会员购物车清单列表数据。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/cart_list'
+      parameters:
+        - name: key
+          in: query
+          description: 会员登录KEY
+          type: string
+  /index.php?act=member_buy&op=buy_step1:
+    post:
+      tags:
+        - 购物车相关
+      summary: 会员购物车确认订单step1
+      description: |
+        这个是会员购物车确认订单step1数据，用于确认支付方式和金额。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/buy_step1'
+      parameters:
+        - name: key
+          in: query
+          description: 会员登录KEY
+          type: string
+        - name: ifcart
+          in: query
+          description: 是否是购物（1：购物车；2：直接购买；）
+          type: string
+        - name: cart_id
+          in: query
+          description: 购物车商品和数量（如：商品ID|商品数量）
+          type: string
+  /index.php?act=member_payment&op=pay_api:
+    get:
+      tags:
+        - 购物车相关
+      summary: 微信端首次付款和二次付款接口
+      description: |
+        这个是会员购物车确认订单step1数据，用于确认支付方式和金额。***[微信端]***
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/pay_api'
+      parameters:
+        - name: key
+          in: query
+          description: 会员登录KEY
+          type: string
+        - name: payment
+          in: query
+          description: 付款方式（wxpay、alipay、ocpay、unionpay）
+          type: string
+        - name: pay_sn
+          in: query
+          description: 付款支付单号
+          type: string
+  /index.php?act=member_payment&op=app_pay:
+    get:
+      tags:
+        - 购物车相关
+      summary: APP端首次付款和二次付款接口
+      description: |
+        这个是会员购物车确认订单step1数据，用于确认支付方式和金额。***[APP端]***
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/pay_api'
+      parameters:
+        - name: key
+          in: query
+          description: 会员登录KEY
+          type: string
+        - name: payment
+          in: query
+          description: 付款方式（wxpay、alipay、ocpay、unionpay）
+          type: string
+        - name: pay_sn
+          in: query
+          description: 付款支付单号
+          type: string
+        - name: order_id
+          in: query
+          description: 二次付款订单号
+          type: string
+  /index.php?act=member_payment&op=send_sms:
+    post:
+      tags:
+        - 购物车相关
+      summary: 刮刮卡短信推送
+      description: |
+        这个是会员刮完刮刮卡后自动下发短信到客户手机。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/successful'
+      parameters:
+        - name: key
+          in: query
+          description: 会员登录KEY
+          type: string
+        - name: pay_sn
+          in: query
+          description: 付款支付单号
+          type: string
+  /index.php?act=goods&op=goods_comments:
+    get:
+      tags:
+        - 商品相关
+      summary: 商品的评价
+      description: |
+        这个是会员评价商品的记录。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/goods_comments'
+      parameters:
+        - name: goods_id
+          in: query
+          description: 商品ID
+          type: string
+        - name: page
+          in: query
+          description: 设置显示条数
+          type: string
+        - name: type
+          in: query
+          description: 评论筛选（0：全部；1：好评；2：中评；3：差评；4：图片）
+          type: string
+
+  /index.php?act=store_list&op=use_services_voucher:
+    post:
+      tags:
+        - 服务站相关
+      summary: 预约美容券
+      description: |
+        这个是会员评价商品的记录。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/successful'
+      parameters:
+        - name: dlyp_id
+          in: query
+          description: 服务站ID
+          type: string
+        - name: voucher_sn
+          in: query
+          description: 美容券编号
+          type: string
+
+  /index.php?act=goods&op=goods_body:
+    get:
+      tags:
+        - 商品相关
+      summary: 商品详情描述
+      description: |
+        这个是商品详情描述。
+      responses:
+        200:
+          description: 直接返回HTML代码
+      parameters:
+        - name: goods_id
+          in: query
+          description: 商品ID
+          type: string
+
+  /index.php?act=member_payment&op=pay_again:
+    post:
+      tags:
+        - 会员中心订单
+      summary: 二次支付前重新生成支付单号
+      description: |
+        这是因为多个店的订单不全部付款，只付款单个订单金额。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/pay_again'
+      parameters:
+        - name: order_id
+          in: query
+          description: 当个订单ID
+          type: string
+        - name: key
+          in: query
+          description: 用户登录口令
+          type: string
+
+  /index.php?act=index&op=activity:
+    get:
+      tags:
+        - 活动专题
+      summary: 获取最新未开启和已开启的活动
+      description: |
+        未开启为预告，已开始未正式活动。
+      responses:
+        200:
+          description: 默认数据内容
+          schema:
+              $ref: '#/definitions/activity'
+      parameters:
+        - name: state
+          in: query
+          description: （1:进行中；2:预告；3:已结束；）
+          type: string
+  /index.php?act=member_favorites&op=favorites_add:
+    post:
+      tags:
+        - 商品相关
+      summary: 商品收藏和取消收藏
+      responses:
+        200:
+          description: datas（1:收藏成功；2:取消收藏；）
+      parameters:
+        - name: goods_id
+          in: query
+          description: 商品ID
+          type: string
+        - name: key
+          in: query
+          description: 用户登录口令
+          type: string
+
+  /index.php?act=member_address&op=get_area_ip:
+    get:
+      tags:
+        - 地址相关
+      summary: 根据城市获取IP地址
+      responses:
+        200:
+          description:
+      parameters:
+        - name: area_id
+          in: query
+          description: 市级ID
+          type: string
+        - name: key
+          in: query
+          description: 用户登录口令
+          type: string
+  /index.php?act=goods&op=goods_list:
+    post:
+      tags:
+        - 商品相关
+      summary: 获取商品列表
+      responses:
+        200:
+          description:
+      parameters:
+        - name: key
+          in: query
+          description: 类型
+          type: string
+        - name: page
+          in: query
+          description: 分页数
+          type: string
+        - name: curpage
+          in: query
+          description: 当前页数
+          type: string
+        - name: gc_id
+          in: query
+          description: 分类ID
+          type: string
+        - name: ecard
+          in: query
+          description: E卡支持
+          type: string
+        - name: coupons
+          in: query
+          description: 美容券支持
+          type: string
+        - name: activity_id
+          in: query
+          description: 活动ID
+          type: string
+  /index.php?act=member_address&op=set_default:
+    post:
+      tags:
+        - 地址相关
+      summary: 设置默认地址
+      responses:
+        200:
+          description:
+      parameters:
+        - name: address_id
+          in: query
+          description: 地址ID
+          type: string
+        - name: key
+          in: query
+          description: 用户登录口令
+          type: string
+definitions:
+  successful:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: string
+  service_list:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      hasmore:
+        type: boolean
+      page_total:
+        type: integer
+        format: int32
+      service_list:
+        type: array
+        items:
+          $ref: '#/definitions/service_list_datas'
+      area_list:
+        type: array
+        items:
+          $ref: '#/definitions/area_list_datas'
+  area_list_datas:
+    type: object
+    properties:
+      area_id:
+        type: string
+        description: 区域ID
+      area_name:
+        type: string
+        description: 区域名称
+  service_list_datas:
+    type: object
+    properties:
+      dlyp_id:
+        type: integer
+        format: int32
+        description: 门店ID
+      dlyp_img:
+        type: string
+        description: 门店图片
+      dlyp_stars:
+        type: integer
+        format: int32
+        description: 门店星级
+      dlyp_address_name:
+        type: string
+        description: 门店名称
+      dlyp_xpoint:
+        type: number
+        format: float
+        description: 横坐标
+      dlyp_ypoint:
+        type: number
+        format: float
+        description: 纵坐标
+      dlyp_telephony:
+        type: integer
+        format: int32
+        description: 门店座机
+      dlyp_address:
+        type: integer
+        format: int32
+        description: 门店地址
+      distance:
+        type: integer
+        format: int32
+        description: 门店距离
+      service_num:
+        type: integer
+        format: int32
+        description: 门店服务人数
+      voucher_state:
+        type: integer
+        format: int32
+        description: 预约按钮状态（0：隐藏按钮；1：预约按钮；2：已预约）
+      dlyp_sercive_usetimes:
+        type: integer
+        format: int32
+        description: 剩余有效预约次数（默认每个店只能预约5个名额）
+  service_details:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: array
+        items:
+          $ref: '#/definitions/service_details_datas'
+  service_details_datas:
+    type: object
+    properties:
+      service_id:
+        type: string
+        description: 服务券ID
+      activity_id:
+        type: string
+        description: 活动ID
+      sercive_type:
+        type: string
+        description: 类型ID（1:美容；2:美妆；3:餐饮；4:酒店；5:其他；）
+      service_name:
+        type: string
+        description: 服务名称
+      sercive_info:
+        type: string
+        description: 服务描述详情***[HTML代码]***
+      service_img:
+        type: string
+        description: 服务图片
+      banner_img:
+        type: string
+        description: 首页大图
+      small_img:
+        type: string
+        description: 详情页小图
+      service_oprice:
+        type: string
+        description: 服务原价
+      service_sprice:
+        type: string
+        description: 抵扣价
+  ticket_voucher:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: array
+        items:
+          $ref: '#/definitions/ticket_voucher_datas'
+  ticket_voucher_datas:
+    type: object
+    properties:
+      addtime:
+        type: integer
+        format: int32
+        description: 创建时间
+      endtime:
+        type: integer
+        format: int32
+        description: 结束时间
+      service_img:
+        type: string
+        description: 护理券图片
+      service_name:
+        type: string
+        description: 护理券名称
+      service_oprice:
+        type: integer
+        format: int32
+        description: 护理券价位
+      voucher_sn:
+        type: string
+        description: 护理券号
+      voucher_state:
+        type: integer
+        format: int32
+        description: 护理券状态
+  cart_list:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: array
+        items:
+          $ref: '#/definitions/cart_list_datas'
+  cart_list_datas:
+    type: object
+    properties:
+      balance:
+        type: integer
+        format: int32
+        description: 送劵订单还差金额
+      cart_list:
+        type: object
+        description: 购物车产品清单
+      satisfy_condition:
+        type: integer
+        format: int32
+        description: 满多少送券
+      sum:
+        type: string
+        description: 商品总金额
+      sum_coupons:
+        type: integer
+        format: int32
+        description: 参与购物券的商品金额
+  buy_step1:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: array
+        items:
+          $ref: '#/definitions/buy_step1_datas'
+  buy_step1_datas:
+    type: object
+    properties:
+      balance:
+        type: integer
+        format: int32
+        description: 送劵订单还差金额
+      cart_list:
+        type: object
+        description: 购物车产品清单
+      satisfy_condition:
+        type: integer
+        format: int32
+        description: 满多少送券
+      sum:
+        type: string
+        description: 商品总金额
+      sum_coupons:
+        type: integer
+        format: int32
+        description: 参与购物券的商品金额
+  pay_api:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: array
+        items:
+          $ref: '#/definitions/pay_api_datas'
+  pay_api_datas:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/pay_api_data'
+  pay_api_data:
+    type: object
+    properties:
+      pay_sn:
+        type: string
+        description: 付款支付单号
+      order_list:
+        type: object
+        description: 订单多个商家商品数据
+      coupons_info:
+        type: array
+        items:
+          $ref: '#/definitions/service_details_datas'
+        description: 满足条件送刮刮卡数据
+      coupons_money:
+        type: integer
+        format: int32
+        description: 本次参与购物劵商品金额
+      day_order_price:
+        type: integer
+        format: int32
+        description: 今天全部小于100订单总金额
+      poor_order_price:
+        type: integer
+        format: int32
+        description: 今天全部小于100订单总金额送劵订单还差金额
+      pay_amount:
+        type: integer
+        format: int32
+        description: 需要付款金额
+  goods_comments:
+    type: object
+    properties:
+      geval_id:
+        type: string
+        description: 评价ID
+      geval_orderid:
+        type: string
+        description: 订单ID
+      geval_orderno:
+        type: string
+        description: 订单号
+      geval_goodsname:
+        type: string
+        description: 商品名称
+      geval_goodsprice:
+        type: string
+        description: 商品金额
+      geval_isanonymous:
+        type: string
+        description: 0：表示不是；1：表示是匿名评价；
+      geval_addtime:
+        type: string
+        description: 评价时间
+      geval_scores:
+        type: string
+        description: 评价评分
+      geval_content:
+        type: string
+        description: 信誉评价内容
+      geval_frommembername:
+        type: string
+        description: 评价会员名
+      geval_frommemberavatar:
+        type: string
+        description: 评价会员头像
+      geval_remark:
+        type: string
+        description: 管理员对评价的处理备注
+      geval_explain:
+        type: string
+        description: 管理员解释内容
+      geval_image:
+        type: object
+        description: 晒单图片
+  pay_again:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      login:
+        type: integer
+        format: int32
+      datas:
+        type: string
+      pay_sn:
+        description: 新的付款单号
+        type: string
+  activity:
+    type: object
+    properties:
+      activity_id:
+        type: string
+        description: 活动ID
+      activity_title:
+        type: string
+        description: 活动标题
+      activity_time_str:
+        type: string
+        description: 活动中文时间
+      activity_type:
+        type: string
+        description: 活动类型（1:商品 2:团购 3:服务）
+      activity_banner:
+        description: 活动banner图
+        type: string
+      activity_desc:
+        description: 活动介绍
+        type: string
+      activity_sign_start_date:
+        description: 活动报名开始时间
+        type: string
+      activity_sign_end_date:
+        description: 活动报名结束时间
+        type: string
+      activity_start_date:
+        description: 活动正式开始时间
+        type: string
+      activity_end_date:
+        description: 活动正式结束时间
+        type: string
+      activity_sort:
+        description: 活动排序
+        type: string
+      activity_state:
+        description: 活动状态（0为关闭 1为开启）
+        type: string
+      satisfy_condition:
+        description: 满足条件
+        type: string
