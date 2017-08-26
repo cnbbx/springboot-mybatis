@@ -5,3 +5,6 @@ mybatis
 
 swagger
 
+druid
+
+druid.monitor
