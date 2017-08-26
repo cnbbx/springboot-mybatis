@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by zl on 2015/8/27.
- */
 @RestController
 @RequestMapping(value = "/index")
 public class IndexController {
@@ -44,7 +41,7 @@ public class IndexController {
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public User getUserById(@PathVariable String name) {
         User user = new User();
-        user.setName("hello world:"+name);
+        user.setName("hello world:" + name);
         return user;
     }
 }

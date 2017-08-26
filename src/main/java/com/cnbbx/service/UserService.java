@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by zl on 2015/8/27.
- */
-
 @Service
 public class UserService {
 

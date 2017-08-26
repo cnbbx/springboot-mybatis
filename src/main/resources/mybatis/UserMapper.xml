@@ -3,11 +3,11 @@
 <mapper namespace="com.cnbbx.mapper.UserMapper">
 
     <select id="findUserInfo" resultType="com.cnbbx.model.User">
-        select name, age,password from user limit 1;
+        select name, age,password from userinfo limit 1;
     </select>
 
     <select id="findUsers" resultType="com.cnbbx.model.User">
-        select name, age,password from user;
+        select name, age,password from userinfo;
     </select>
 
 </mapper>
