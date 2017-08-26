@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/index")
+@RequestMapping(value = "/v1")
 public class IndexController {
 
 
@@ -22,7 +22,7 @@ public class IndexController {
     /**
      * @return
      */
-    @ApiOperation(value = "Diy all users", notes = "requires noting")
+    @ApiOperation(value = "Diy all users", notes = "requires noting", httpMethod = "GET")
     @RequestMapping(method = RequestMethod.GET)
     public List<User> getUsers() {
         List<User> list = new ArrayList<User>();
@@ -37,7 +37,7 @@ public class IndexController {
         return list;
     }
 
-    @ApiOperation(value = "Get user with id", notes = "requires the id of user")
+    @ApiOperation(value = "Get user with id", notes = "requires the id of user", httpMethod = "GET")
     @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public User getUserById(@PathVariable String name) {
         User user = new User();

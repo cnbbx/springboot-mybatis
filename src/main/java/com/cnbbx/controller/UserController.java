@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/v1/user")
 public class UserController {
 
     private Logger logger = Logger.getLogger(UserController.class);
@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "Get 1 users", notes = "requires noting")
+    @ApiOperation(value = "Get 1 users", notes = "requires noting", httpMethod = "GET")
     @RequestMapping("/getUserInfo")
     @ResponseBody
     public User getUserInfo() {
@@ -32,7 +32,7 @@ public class UserController {
         return user;
     }
 
-    @ApiOperation(value = "Get all users", notes = "requires noting")
+    @ApiOperation(value = "Get all users", notes = "requires noting", httpMethod = "GET")
     @RequestMapping("/getUsers")
     @ResponseBody
     public List<User> getUserInfos() {
